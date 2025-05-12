@@ -1,9 +1,7 @@
 "use client";
 
 import { Mail, User, Phone } from "lucide-react";
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import supabase from "@/lib/supabase";
 import { toast, Toaster } from "react-hot-toast";
 
 interface Student {
@@ -43,54 +41,46 @@ export default function Home() {
     e.preventDefault();
     
     try {
-      // Check if email already exists (except for the current record being edited)
-      const { data: existingUser } = await supabase
-        .from("students")
-        .select("id")
-        .eq("email", formData.email)
-        .single() as { data: Student | null };
-
-      if (existingUser && !editId) {
-        toast.error("Email already exists!");
-        return;
-      }
-
       if (editId) {
         // Update existing student
-        const { error } = await supabase
-          .from("students")
-          .update({
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            gender: formData.gender
-          })
-          .eq("id", editId) as { error: any };
+        const response = await fetch('/api/students', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ...formData, id: editId }),
+        });
 
-        if (error) {
-          toast.error(`Error: ${error.message}`);
-        } else {
-          toast.success("Student updated successfully");
-          setEditId(null);
-          resetForm();
-          getStudents();
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to update student');
         }
+
+        toast.success("Student updated successfully");
+        resetForm();
       } else {
         // Add new student
-        const { error } = await supabase
-          .from("students")
-          .insert([formData]) as { error: any };
+        const response = await fetch('/api/students', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
 
-        if (error) {
-          toast.error(`Error: ${error.message}`);
-        } else {
-          toast.success("Student added successfully");
-          resetForm();
-          getStudents();
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to add student');
         }
+
+        toast.success("Student added successfully");
+        resetForm();
       }
+      getStudents();
     } catch (error: any) {
-      toast.error(`Error: ${error.message}`);
+      toast.error(error.message);
     }
   }
 
@@ -120,36 +110,36 @@ export default function Home() {
     if (!id) return;
     
     try {
-      const { error } = await supabase
-        .from("students")
-        .delete()
-        .eq("id", id) as { error: any };
+      const response = await fetch(`/api/students?id=${id}`, {
+        method: 'DELETE',
+      });
 
-      if (error) {
-        toast.error(`Error: ${error.message}`);
-      } else {
-        toast.success("Student deleted successfully");
-        getStudents();
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to delete student');
       }
+
+      toast.success("Student deleted successfully");
+      getStudents();
     } catch (error: any) {
-      toast.error(`Error: ${error.message}`);
+      toast.error(error.message);
     }
   }
 
   async function getStudents() {
     setLoading(true);
     try {
-      const { data, error } = await supabase
-        .from("students")
-        .select("*") as { data: Student[] | null; error: any };
-        
-      if (error) {
-        toast.error(`Error: ${error.message}`);
-      } else if (data) {
-        setStudents(data);
+      const response = await fetch('/api/students');
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to fetch students');
       }
+
+      setStudents(data);
     } catch (error: any) {
-      toast.error(`Error: ${error.message}`);
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }
