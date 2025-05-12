@@ -184,7 +184,7 @@ export default function Home() {
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="John"
+                  placeholder="John Doe"
                   className="w-full pl-10 pr-3 py-3 border bg-white border-gray-300 rounded-lg text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
                   required
                   aria-required="true"
