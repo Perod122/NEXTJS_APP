@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Student Management System
+
+A full-stack web application built with Next.js 15 and Supabase for managing student records. This application allows users to create, read, update and delete student information with a responsive user interface.
+
+## Features
+
+- ✅ Create, view, update, and delete student records
+- ✅ Responsive design for desktop and mobile devices
+- ✅ Search functionality to filter students
+- ✅ Form validation
+- ✅ Toast notifications for user feedback
+- ✅ Supabase PostgreSQL database integration
+
+## Tech Stack
+
+- **Frontend**: React 19, Next.js 15, Tailwind CSS 4
+- **State Management**: React Hooks
+- **Database**: Supabase (PostgreSQL)
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Notifications**: React Hot Toast
+- **Language**: TypeScript
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18.0 or later
+- npm or yarn package manager
+- Supabase account and project
+
+### Environment Setup
+
+1. Create a `.env.local` file in the root directory with the following variables:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+### Database Setup
+
+1. Create a new Supabase project
+2. In your Supabase dashboard, create a new table called `students` with the following columns:
+   - `id`: uuid (primary key)
+   - `name`: text (required)
+   - `email`: text (required)
+   - `phone`: text (required)
+   - `gender`: text (required)
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone <repository-url>
+cd next-perod
+
+# Install dependencies
+npm install
+# or
+yarn install
+
+# Run the development server
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+next-perod/
+├── app/                  # Next.js App Router
+│   ├── api/              # API routes
+│   │   └── students/     # Student API endpoints
+│   ├── page.tsx          # Home page with student management UI
+│   └── layout.tsx        # Root layout with metadata
+├── lib/                  # Utility functions
+│   └── supabase.js       # Supabase client configuration
+├── public/               # Static assets
+└── ...config files
+```
+
+## Deployment
+
+The application can be deployed on Vercel:
+
+1. Push your code to a GitHub repository
+2. Import the project in Vercel
+3. Configure environment variables
+4. Deploy
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about the technologies used in this project:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Supabase Documentation](https://supabase.io/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [React Documentation](https://react.dev)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is open source and available under the [MIT License](LICENSE).
