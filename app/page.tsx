@@ -46,7 +46,7 @@ export default function Home() {
     
     try {
       if (editId) {
-        // Update existing student
+        // Update existing student selected
         const response = await fetch('/api/students', {
           method: 'PUT',
           headers: {
